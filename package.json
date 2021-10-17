@@ -1,0 +1,66 @@
+{
+  "name": "@sphereon/lto-did-ts",
+  "version": "0.0.1",
+  "description": "LTO DID support",
+  "main": "dist/index.ts",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.main.json",
+    "test": "run-s build test:* cov",
+    "test:lint": "eslint . --ext .ts",
+    "test:prettier": "prettier \"{lib,test}/**/*.ts\" --list-different",
+    "test:unit": "jest",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"{lib,test}/**/*.ts\" --write",
+    "fix:lint": "eslint . --ext .ts --fix",
+    "cov": "jest --coverage"
+  },
+  "files": [
+    "/dist"
+  ],
+  "repository": {
+    "url": "https://github.com/Sphereon-Opensource/lto-did-ts.git"
+  },
+  "keywords": [
+    "LTO Network",
+    "DID"
+  ],
+  "license": "Apache-2.0",
+  "private": true,
+  "dependencies": {
+    "@lto-network/lto-crypto": "^1.1.1",
+    "@nklomp78/lto-transactions": "^1.2.11-nk20",
+    "@lto-network/signature-generator": "^1.0.0",
+    "@waves/ts-lib-crypto": "^1.4.4-beta.1",
+    "@sphereon/did-uni-client": "^0.3.3",
+    "bs58": "^4.0.1",
+    "connect": "^3.7.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^10.0.0",
+    "js-yaml": "^4.1.0",
+    "lto-api": "^0.5.14",
+    "oas3-tools": "^2.2.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "jest": "^27.3.0",
+    "nock": "^13.1.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.3.0",
+    "typescript": "^4.4.4"
+  },
+  "prettier": {
+    "endOfLine": "auto",
+    "singleQuote": true,
+    "printWidth": 150
+  }
+}

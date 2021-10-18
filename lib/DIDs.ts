@@ -100,7 +100,7 @@ export class DID {
     return new UniResolver().setBaseURL(this._uniResolverUrl).resolve(this.value());
   }
 
-  get verificationMethodAccounts(): Account[] {
+  public verificationMethodAccounts(): Account[] {
     return this._verificationMethodAccounts;
   }
 

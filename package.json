@@ -29,7 +29,7 @@
   "private": false,
   "dependencies": {
     "@lto-network/lto-crypto": "^1.1.1",
-    "@nklomp78/lto-transactions": "^1.2.11-nk20",
+    "@nklomp78/lto-transactions": "^1.2.11-nk27",
     "@lto-network/signature-generator": "^1.0.0",
     "@waves/ts-lib-crypto": "^1.4.4-beta.1",
     "@sphereon/did-uni-client": "^0.3.3",

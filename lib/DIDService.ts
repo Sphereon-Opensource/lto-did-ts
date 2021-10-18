@@ -7,9 +7,9 @@ import { DIDResolutionResult, UniResolver } from '@sphereon/did-uni-client';
 import { base16Decode, base16Encode, base58Decode, base58Encode } from '@waves/ts-lib-crypto';
 import { Account, LTO as LTOApi } from 'lto-api';
 
-import { LtoVerificationMethod, Network } from './types/lto-types';
+import { LtoVerificationMethod, Network } from './types';
 
-export class DID {
+export class DIDService {
   private readonly _rpcUrl: string;
   private readonly _network?: Network | string;
   private readonly _account: Account;
@@ -45,13 +45,13 @@ export class DID {
     const txParams = {
       version: 3,
       chainId: this.lto().networkByte.charCodeAt(0),
-      // senderKeyType: "Ed25519",
       senderPublicKey: base58encode(account.sign.publicKey),
       anchors: ['1111111111111111'], // We are anchoring something random as a zero-anchor DID is not possible
     };
     const tx = anchor(txParams);
-    this.addProofs(tx, account, this.sponsorAccount);
+    DIDService.addProofs(tx, account, this.sponsorAccount);
     await broadcast(tx, this._rpcUrl);
+    console.log(`DID creation tx: ${tx.id} for ${account.address}`);
     if (_opts?.verificationMethods && _opts.verificationMethods.length > 0) {
       _opts.verificationMethods.forEach((verificationMethod) => this.addVerificationMethod({ verificationMethod, createVerificationDID: true }));
     }
@@ -66,23 +66,34 @@ export class DID {
     const { verificationMethod } = opts;
     const vmAccount = this.createAccount(opts.verificationMethodPrivateKeyBase58);
     if (opts.createVerificationDID) {
-      await this.createDID();
+      const verificationDid = await new DIDService({
+        network: this._network,
+        rpcUrl: this._rpcUrl,
+        sponsorPrivateKeyBase58: this.sponsorAccount ? base58encode(this.sponsorAccount.sign.privateKey) : undefined,
+        didPrivateKeyBase58: base58encode(vmAccount.sign.privateKey),
+      }).createDID({ _didAccount: vmAccount });
+      console.log(`Verification method did: ${verificationDid}`);
     }
 
     const txParams = {
       version: 3,
-      chainId: this.lto().networkByte.charCodeAt(0),
       recipient: vmAccount.address,
       expires: 0,
       sender: this._account.address,
+      hash: '',
       senderKeyType: 'ed25519',
       senderPublicKey: base58encode(this._account.sign.publicKey),
       associationType: verificationMethod,
     };
     const tx = invokeAssociation(txParams) as IAssociationTransactionV3 & WithId;
 
-    this.addProofs(tx, this._account, this.sponsorAccount);
+    DIDService.addProofs(tx, this._account, this.sponsorAccount);
+    /* if (this.sponsorAccount) {
+      tx.sponsorPublicKey = base58encode(this.sponsorAccount.sign.publicKey);
+    }*/
+
     console.log(`VM relation tx id: ${JSON.stringify(tx)}`);
+    await broadcast(tx, this._rpcUrl);
 
     this._verificationMethodAccounts.push(vmAccount);
     return vmAccount;
@@ -92,12 +103,12 @@ export class DID {
     return this._account;
   }
 
-  public value(): string {
+  public did(): string {
     return `did:lto:${this.account().address}`;
   }
 
   public resolve(): Promise<DIDResolutionResult> {
-    return new UniResolver().setBaseURL(this._uniResolverUrl).resolve(this.value());
+    return new UniResolver().setBaseURL(this._uniResolverUrl).resolve(this.did());
   }
 
   public verificationMethodAccounts(): Account[] {
@@ -108,7 +119,7 @@ export class DID {
     return privateKeyBase58 ? this.lto().createAccountFromPrivateKey(privateKeyBase58) : this.lto().createAccount();
   }
 
-  private addProofs(tx: (IAssociationTransactionV3 & WithId) | (IAnchorTransaction & WithId), fromAccount: Account, sponsor?: Account): void {
+  private static addProofs(tx: (IAssociationTransactionV3 & WithId) | (IAnchorTransaction & WithId), fromAccount: Account, sponsor?: Account): void {
     const serializedTx = binary.serializeTx(tx);
 
     // Sender proof

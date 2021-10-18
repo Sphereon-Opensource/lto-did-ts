@@ -13,3 +13,72 @@
 This is a Typescript project that allows you to create DIDs, add Verification Methods and resolve DIDs on LTO Network.
 
 Please note we also have a Veramo.io DID manager plugin as well as a Universal Registrar driver accompanying this library.
+
+
+# Creating a DID
+
+Creating a DID means you have to create a public/private keypair first. 
+You can do this using `lto-api` package or any other means to create a ed25519 keypair.
+We are accepting an optional ed25519 private key to keep it flexible for everyone. If it is not provided we will create a random private/public keypair for you.
+
+Internally it will create an LTO account or import the key into an account. We expose the account using the `account()` method for your retrieval. 
+
+## Initializing the DID class
+
+````typescript
+import {Account, LTO} from "lto-api";
+import {DIDService, Network} from "@sphereon/lto-did-ts";
+
+const didAccount = new LTO(Network.TESTNET, 'https://testnet.lto.network')
+const didPrivateKeyBase58 = base58encode(didAccount.sign.privateKey)
+
+const didService = new DIDService({
+    didPrivateKeyBase58,
+    network: Network.TESTNET,
+});
+
+
+// The account is either constructed from the supplied private key, or a random account is created
+const account: Account = didService.account()
+````
+
+
+## Create a DID on chain
+The above only initialized the DID service, so now lets actually publish/create a DID on chain.
+
+````typescript
+const createdDid = didService.createDID();
+console.log(createdDid) // Returns the did string
+console.log(didService.did()) // Returns the same did string
+// Output: 
+// did:lto:<address-value>
+// did:lto:<address-value>
+
+````
+
+
+## Add verificationMethod(s)
+You can add one or more verification methods to an existing DID, or you can add them during DID creation.
+Internally this is accomplished using LTO Networks, associations. This means new private/public keypairs are need.
+Again you can use your own ed25519 private key, or have one randomly created for you. Obviously you do need to retrieve them from the didService afterwards in that case.
+
+In order to make the internal LTO Network association the target account of the association needs to have been published on the network before that. The public key needs to be known for the LTO indexer to index it.
+The boolean option createVerificationDID can create the respective account for you. Do note that the library will wait for several seconds to ensure the account is published before creating the association.
+
+````typescript
+import {Account, LTO} from "lto-api";
+import {DIDService, Network} from "@sphereon/lto-did-ts";
+import {LtoVerificationMethod} from "./index";
+
+const verificationMethodAccount = new LTO(Network.TESTNET, 'https://testnet.lto.network')
+const verificationMethodPrivateKeyBase58 = base58encode(vmAccount.sign.privateKey)
+const verificationMethod = LtoVerificationMethod.CapabilityInvocation
+
+
+const verificationMethodResult = didService.addVerificationMethod({
+    verificationMethodPrivateKeyBase58,
+    verificationMethod,
+    createVerificationDID: true
+})
+````
+

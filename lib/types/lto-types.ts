@@ -1,7 +1,7 @@
 export enum LtoVerificationMethod {
   VerificationMethod = 0x0100,
   Authentication = 0x0101,
-  Assertion0x0102,
+  Assertion = 0x0102,
   KeyAgreement = 0x0104,
   CapabilityInvocation = 0x0108,
   CapabilityDelegation = 0x0110,

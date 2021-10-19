@@ -564,10 +564,10 @@
     js-sha256 "^0.9.0"
     tweetnacl "^1.0.1"
 
-"@nklomp78/lto-transactions@^1.2.11-nk27":
-  version "1.2.11-nk27"
-  resolved "https://registry.yarnpkg.com/@nklomp78/lto-transactions/-/lto-transactions-1.2.11-nk27.tgz#abc43370b611e9c7fa992f40dcd65461c7fe651c"
-  integrity sha512-OCadNUd82iSToUWKx9xKNiCaJFReffPmjlTFns89t5Wc9+6UaYmPpEDsGvFH+wfGkE/WgOgK/igNvP5g4B3RBg==
+"@nklomp78/lto-transactions@^1.2.11-nk29":
+  version "1.2.11-nk29"
+  resolved "https://registry.yarnpkg.com/@nklomp78/lto-transactions/-/lto-transactions-1.2.11-nk29.tgz#500e1f9453858ea88fe3b842ff65b278279d7cca"
+  integrity sha512-IWAKqaga7mc+Bg644LnXcaN7oWNQIgy2bqCwUV196OFd8ATTtdA4Vn3sKei+sq+MIlE2fg0UpVE13vjrrZncMA==
   dependencies:
     "@lto-network/lto-crypto" "^1.1.1"
     ajv "^6.5.5"

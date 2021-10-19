@@ -43,8 +43,8 @@ describe('creating a sponsored DID', () => {
       did.createDID({ verificationMethods: [LtoVerificationMethod.CapabilityDelegation, LtoVerificationMethod.Authentication] })
     ).resolves.toContain(`did:lto:${didAccount.address}`);
 
-    expect(did.account()).toBeTruthy();
-    expect(did.did()).toEqual(`did:lto:${did.account().address}`);
+    expect(did.didAccount()).toBeTruthy();
+    expect(did.did()).toEqual(`did:lto:${did.didAccount().address}`);
 
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     const vmAccount = await did.addVerificationMethod({

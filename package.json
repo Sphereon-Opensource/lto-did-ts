@@ -1,6 +1,6 @@
 {
   "name": "@sphereon/lto-did-ts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "LTO DID support",
   "main": "dist/index.ts",
   "typings": "dist/index.d.ts",
@@ -29,7 +29,7 @@
   "private": false,
   "dependencies": {
     "@lto-network/lto-crypto": "^1.1.1",
-    "@nklomp78/lto-transactions": "^1.2.11-nk27",
+    "@nklomp78/lto-transactions": "^1.2.11-nk29",
     "@lto-network/signature-generator": "^1.0.0",
     "@waves/ts-lib-crypto": "^1.4.4-beta.1",
     "@sphereon/did-uni-client": "^0.3.3",

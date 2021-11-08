@@ -552,6 +552,18 @@
     crypto-js "^3.1.9-1"
     tweetnacl "^1.0.1"
 
+"@lto-network/lto-transactions@^1.2.12":
+  version "1.2.12"
+  resolved "https://registry.yarnpkg.com/@lto-network/lto-transactions/-/lto-transactions-1.2.12.tgz#19dddca0dcdbe7055bcd9544ac35507507c9df5c"
+  integrity sha512-bUCwN1xFMr8HFg+rdpxfj5vyCM/2aBSq8kyXyhFw2t8Ovl6BL4rI9zK+4UnOHl5e5z72UWsHgdT3taicxPQiug==
+  dependencies:
+    "@lto-network/lto-crypto" "^1.1.1"
+    ajv "^6.5.5"
+    axios "^0.21.1"
+    base64-js "^1.5.1"
+    long "^4.0.0"
+    parse-json-bignumber "^0.1.3"
+
 "@lto-network/signature-generator@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@lto-network/signature-generator/-/signature-generator-1.0.0.tgz#8eb69d863df4879c5954f3c4caa4b55ff21cc240"
@@ -563,18 +575,6 @@
     crypto-js "^3.1.9-1"
     js-sha256 "^0.9.0"
     tweetnacl "^1.0.1"
-
-"@nklomp78/lto-transactions@^1.2.11-nk29":
-  version "1.2.11-nk29"
-  resolved "https://registry.yarnpkg.com/@nklomp78/lto-transactions/-/lto-transactions-1.2.11-nk29.tgz#500e1f9453858ea88fe3b842ff65b278279d7cca"
-  integrity sha512-IWAKqaga7mc+Bg644LnXcaN7oWNQIgy2bqCwUV196OFd8ATTtdA4Vn3sKei+sq+MIlE2fg0UpVE13vjrrZncMA==
-  dependencies:
-    "@lto-network/lto-crypto" "^1.1.1"
-    ajv "^6.5.5"
-    axios "^0.21.1"
-    base64-js "^1.5.1"
-    long "^4.0.0"
-    parse-json-bignumber "^0.1.3"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"

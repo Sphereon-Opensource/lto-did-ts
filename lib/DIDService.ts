@@ -1,8 +1,8 @@
 import { base58encode, buildAddress, signWithPrivateKey } from '@lto-network/lto-crypto';
-import { anchor, broadcast, IAnchorTransaction, invokeAssociation, WithId } from '@nklomp78/lto-transactions';
-import { addProof } from '@nklomp78/lto-transactions/dist/generic';
-import { binary } from '@nklomp78/lto-transactions/dist/parseSerialize';
-import { IAssociationTransactionV3 } from '@nklomp78/lto-transactions/dist/transactions';
+import { anchor, broadcast, IAnchorTransaction, invokeAssociation, WithId } from '@lto-network/lto-transactions';
+import { addProof } from '@lto-network/lto-transactions/dist/generic';
+import { binary } from '@lto-network/lto-transactions/dist/parseSerialize';
+import { IAssociationTransactionV3 } from '@lto-network/lto-transactions/dist/transactions';
 import { DIDResolutionResult, UniResolver } from '@sphereon/did-uni-client';
 import { base16Decode, base16Encode, base58Decode, base58Encode } from '@waves/ts-lib-crypto';
 import { Account, LTO as LTOApi } from 'lto-api';
@@ -13,7 +13,7 @@ export class DIDService {
   private readonly _rpcUrl: string;
   private readonly _network?: Network | string;
   private readonly _didAccount: Account;
-  private readonly _sponsorAccount: Account;
+  private readonly _sponsorAccount: Account | undefined;
   private _verificationMethodAccounts: Account[] = [];
   private _uniResolverUrl: string;
   public constructor({
@@ -101,7 +101,7 @@ export class DIDService {
     return this._didAccount;
   }
 
-  public sponsorAccount(): Account {
+  public sponsorAccount(): Account | undefined {
     return this._sponsorAccount;
   }
 

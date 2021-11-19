@@ -1,5 +1,6 @@
-import { deriveAddressFromPublicKeyBase58, deriveAddressFromPublicKeyHex, DIDService } from './DIDService';
-import { LtoVerificationMethod, Network } from './types';
+import { DIDService } from './DIDService'
+import { LtoVerificationMethod, Network } from './types'
 
-export { Network, LtoVerificationMethod };
-export { DIDService, deriveAddressFromPublicKeyHex, deriveAddressFromPublicKeyBase58 };
+export { Network, LtoVerificationMethod }
+export { DIDService }
+export { hexToBase58, base58ToHex, deriveAddressFromPublicKeyBase58, deriveAddressFromPublicKeyHex } from './utils'

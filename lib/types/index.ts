@@ -1,3 +1,3 @@
-import { LtoVerificationMethod, Network } from './lto-types';
+import { LtoVerificationMethod, Network } from './lto-types'
 
-export { Network, LtoVerificationMethod };
+export { Network, LtoVerificationMethod }

@@ -1,4 +1,9 @@
 # Release Notes
+## v0.1.2 - 2021-11-19
+
+- Changed:
+  - Export util methods
+
 ## v0.1.1 - 2021-11-09
 
 - Changed:

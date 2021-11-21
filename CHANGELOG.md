@@ -1,4 +1,9 @@
 # Release Notes
+## v0.1.3 - 2021-11-22
+
+- Fixed:
+  - fixed utils export
+  
 ## v0.1.2 - 2021-11-19
 
 - Changed:

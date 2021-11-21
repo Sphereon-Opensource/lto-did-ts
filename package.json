@@ -1,6 +1,6 @@
 {
   "name": "@sphereon/lto-did-ts",
-  "version": "0.1.3",
+  "version": "0.1.4-DEV",
   "description": "LTO DID support",
   "main": "dist/index.ts",
   "typings": "dist/index.d.ts",

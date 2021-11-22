@@ -1,7 +1,7 @@
 import { DIDService } from './DIDService'
 import { LtoVerificationMethod, Network } from './types'
-import * as Utils from './utils'
+import { base58ToHex, deriveAddressFromPublicKeyBase58, deriveAddressFromPublicKeyHex, hexToBase58 } from './utils'
 
 export { Network, LtoVerificationMethod }
 export { DIDService }
-export { Utils }
+export { deriveAddressFromPublicKeyBase58, deriveAddressFromPublicKeyHex, hexToBase58, base58ToHex }

@@ -2,7 +2,7 @@
   "name": "@sphereon/lto-did-ts",
   "version": "0.1.4-DEV",
   "description": "LTO DID support",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.main.json",

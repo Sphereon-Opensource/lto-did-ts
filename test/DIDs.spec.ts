@@ -2,10 +2,17 @@ import { base58encode } from '@lto-network/lto-crypto'
 import { LTO } from 'lto-api'
 import nock from 'nock'
 
-import { LtoVerificationMethod, Network } from '../lib'
-import { DIDService, Utils } from '../lib'
+import {
+  base58ToHex,
+  deriveAddressFromPublicKeyBase58,
+  deriveAddressFromPublicKeyHex,
+  DIDService,
+  hexToBase58,
+  LtoVerificationMethod,
+  Network,
+} from '../lib'
 
-const sponsorPrivateKeyBase58 = Utils.hexToBase58(
+const sponsorPrivateKeyBase58 = hexToBase58(
   'ea6aaeebe17557e0fe256bfce08e8224a412ea1e25a5ec8b5d69618a58bad89e89a4661e446b46401325a38d3b20582d1dd277eb448a3181012a671b7ae15837'
 )
 const lto = new LTO(Network.TESTNET, 'https://testnet.lto.network')
@@ -63,14 +70,14 @@ describe('creating a sponsored DID', () => {
 describe('low level functions should', () => {
   const base58PublicKey = base58encode(sponsorAccount.sign.publicKey)
   it('return the correct address for a b58 private key', () => {
-    expect(Utils.deriveAddressFromPublicKeyBase58(base58PublicKey, Network.TESTNET)).toEqual(sponsorAccount.address)
+    expect(deriveAddressFromPublicKeyBase58(base58PublicKey, Network.TESTNET)).toEqual(sponsorAccount.address)
   })
 
   it('return correct b58 <-> hex conversions', () => {
-    expect(Utils.hexToBase58(Utils.base58ToHex(base58PublicKey))).toEqual(base58PublicKey)
+    expect(hexToBase58(base58ToHex(base58PublicKey))).toEqual(base58PublicKey)
   })
 
   it('return the correct address for a hex private key', () => {
-    expect(Utils.deriveAddressFromPublicKeyHex(Utils.base58ToHex(base58PublicKey), Network.TESTNET)).toEqual(sponsorAccount.address)
+    expect(deriveAddressFromPublicKeyHex(base58ToHex(base58PublicKey), Network.TESTNET)).toEqual(sponsorAccount.address)
   })
 })

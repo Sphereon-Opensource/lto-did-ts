@@ -1,4 +1,9 @@
 # Release Notes
+## v0.1.4 - 2021-11-22
+
+- Fixed:
+  - fixed main entry point, causing the module to be unusable from external packages
+
 ## v0.1.3 - 2021-11-22
 
 - Fixed:

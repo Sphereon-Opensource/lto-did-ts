@@ -1,4 +1,9 @@
 # Release Notes
+## v0.1.5 - 2021-11-25
+
+- Fixed:
+  - fixed async flow
+
 ## v0.1.4 - 2021-11-22
 
 - Fixed:

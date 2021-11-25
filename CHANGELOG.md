@@ -1,4 +1,9 @@
 # Release Notes
+## v0.1.6 - 2021-11-26
+
+- Feature:
+  - Add log level support
+
 ## v0.1.5 - 2021-11-25
 
 - Fixed:

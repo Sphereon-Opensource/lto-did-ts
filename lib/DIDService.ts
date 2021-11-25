@@ -47,7 +47,7 @@ export class DIDService {
       senderPublicKey: base58encode(account.sign.publicKey),
       anchors: ['1111111111111111'], // We are anchoring something random as a zero-anchor DID is not possible
     }
-    const tx = anchor(txParams)
+    const tx = await anchor(txParams)
     DIDService.addProofs(tx, account, this._sponsorAccount)
     await broadcast(tx, this._rpcUrl)
 
@@ -55,7 +55,7 @@ export class DIDService {
     if (_opts?.verificationMethods && _opts.verificationMethods.length > 0) {
       _opts.verificationMethods.forEach((verificationMethod) => this.addVerificationMethod({ verificationMethod, createVerificationDID: true }))
     }
-    return `did:lto:${account.address}`
+    return Promise.resolve(`did:lto:${account.address}`)
   }
 
   public async addVerificationMethod(opts: {
@@ -85,7 +85,7 @@ export class DIDService {
       senderPublicKey: base58encode(this._didAccount.sign.publicKey),
       associationType: verificationMethod,
     }
-    const tx = invokeAssociation(txParams) as IAssociationTransactionV3 & WithId
+    const tx = (await invokeAssociation(txParams)) as IAssociationTransactionV3 & WithId
 
     DIDService.addProofs(tx, this._didAccount, this._sponsorAccount)
 
@@ -93,7 +93,7 @@ export class DIDService {
     await broadcast(tx, this._rpcUrl)
 
     this._verificationMethodAccounts.push(vmAccount)
-    return vmAccount
+    return Promise.resolve(vmAccount)
   }
 
   public didAccount(): Account {

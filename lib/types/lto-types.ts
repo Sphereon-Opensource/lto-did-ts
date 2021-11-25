@@ -7,6 +7,12 @@ export enum LtoVerificationMethod {
   CapabilityDelegation = 0x0110,
 }
 
+export enum LogLevel {
+  DEBUG,
+  INFO,
+
+  NONE = 99,
+}
 export enum Network {
   TESTNET = 'T',
   MAINNET = 'L',

@@ -6,7 +6,7 @@ import { IAssociationTransactionV3 } from '@lto-network/lto-transactions/dist/tr
 import { DIDResolutionResult, UniResolver } from '@sphereon/did-uni-client'
 import { Account, LTO as LTOApi } from 'lto-api'
 
-import { LtoVerificationMethod, Network } from './types'
+import { LogLevel, LtoVerificationMethod, Network } from './types'
 
 export class DIDService {
   private readonly _rpcUrl: string
@@ -15,23 +15,27 @@ export class DIDService {
   private readonly _sponsorAccount: Account | undefined
   private _verificationMethodAccounts: Account[] = []
   private _uniResolverUrl: string
+  private readonly _logLevel: LogLevel
   public constructor({
     network,
     rpcUrl,
     uniResolverUrl,
     didPrivateKeyBase58,
     sponsorPrivateKeyBase58,
+    logLevel,
   }: {
     network?: Network | string
     rpcUrl?: string
     uniResolverUrl?: string
     didPrivateKeyBase58?: string
     sponsorPrivateKeyBase58?: string
+    logLevel?: LogLevel
   }) {
     this._uniResolverUrl = uniResolverUrl || 'https://dev.uniresolver.io'
     // We store the network and rpc url because LTO constructor uses a global configuration object, so we recreate it every time
     this._network = network || Network.TESTNET
     this._rpcUrl = rpcUrl || 'https://testnet.lto.network'
+    this._logLevel = logLevel || LogLevel.NONE
     this._didAccount = this.createAccount(didPrivateKeyBase58)
     this._sponsorAccount = this.createSponsorAccount({
       didPrivateKeyBase58,
@@ -51,7 +55,7 @@ export class DIDService {
     DIDService.addProofs(tx, account, this._sponsorAccount)
     await broadcast(tx, this._rpcUrl)
 
-    console.log(`DID creation tx: ${tx.id} for ${account.address}`)
+    this.log(LogLevel.DEBUG, `DID creation tx: ${tx.id} for ${account.address}`)
     if (_opts?.verificationMethods && _opts.verificationMethods.length > 0) {
       _opts.verificationMethods.forEach((verificationMethod) => this.addVerificationMethod({ verificationMethod, createVerificationDID: true }))
     }
@@ -64,7 +68,7 @@ export class DIDService {
     createVerificationDID?: boolean
   }): Promise<Account> {
     const { verificationMethod } = opts
-    const vmAccount = this.createAccount(opts.verificationMethodPrivateKeyBase58)
+    const vmAccount = await this.createAccount(opts.verificationMethodPrivateKeyBase58)
     if (opts.createVerificationDID) {
       const verificationDid = await new DIDService({
         network: this._network,
@@ -72,7 +76,7 @@ export class DIDService {
         sponsorPrivateKeyBase58: this._sponsorAccount ? base58encode(this._sponsorAccount.sign.privateKey) : undefined,
         didPrivateKeyBase58: base58encode(vmAccount.sign.privateKey),
       }).createDID({ _didAccount: vmAccount })
-      console.log(`Verification method did: ${verificationDid}`)
+      this.log(LogLevel.DEBUG, `Verification method did: ${verificationDid}`)
     }
 
     const txParams = {
@@ -89,7 +93,7 @@ export class DIDService {
 
     DIDService.addProofs(tx, this._didAccount, this._sponsorAccount)
 
-    console.log(`VM relation tx id: ${JSON.stringify(tx)}`)
+    this.log(LogLevel.DEBUG, `VM relation tx id: ${JSON.stringify(tx)}`)
     await broadcast(tx, this._rpcUrl)
 
     this._verificationMethodAccounts.push(vmAccount)
@@ -148,5 +152,13 @@ export class DIDService {
   private lto(): LTOApi {
     // We store the network and rpc url because LTO constructor uses a global configuration object, so we recreate it every time
     return new LTOApi(this._network, this._rpcUrl)
+  }
+
+  private log(level: LogLevel, value: string) {
+    if (level >= this._logLevel) {
+      if (level === LogLevel.DEBUG || level === LogLevel.INFO) {
+        console.log(value)
+      }
+    }
   }
 }

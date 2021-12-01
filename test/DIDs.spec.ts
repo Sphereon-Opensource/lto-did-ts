@@ -15,10 +15,18 @@ import {
 const sponsorPrivateKeyBase58 = hexToBase58(
   'ea6aaeebe17557e0fe256bfce08e8224a412ea1e25a5ec8b5d69618a58bad89e89a4661e446b46401325a38d3b20582d1dd277eb448a3181012a671b7ae15837'
 )
+// 5gqCU5NbwU4gc62be39LXDDALKj8opj1KZszx7ULJc2k33kk52prn8D1H2pPPwm6QVKvkuo72YJSoUhzzmAFmDH8
 const lto = new LTO(Network.TESTNET, 'https://testnet.lto.network')
 const sponsorAccount = lto.createAccountFromPrivateKey(sponsorPrivateKeyBase58)
 const didAccount = lto.createAccount() //lto.createAccountFromExistingPhrase('one 2 three 4 five'/*'df3dd6d884714288a39af0bd973a1771c9f00f168cf040d6abb6a50dd5e055d8'*/);
 const didPrivateKeyBase58 = base58encode(didAccount.sign.privateKey)
+const didPublicKeyBase58 = base58encode(didAccount.sign.publicKey)
+const didPrivateKeyHex = base58ToHex(didPrivateKeyBase58)
+const didPublicKeyHex = base58ToHex(didPublicKeyBase58)
+
+console.log(`did:lto:${didAccount.address}`)
+console.log(`private key base58: '${didPrivateKeyBase58}', hex: '${didPrivateKeyHex}'`)
+console.log(`public  key base58: '${didPublicKeyBase58}', hex: '${didPublicKeyHex}'`)
 
 nock(`https://nonexisting.resolver.for.dids/1.0/identifiers/did:lto:${sponsorAccount.address}`)
   .get(/.*/)
@@ -52,6 +60,8 @@ describe('creating a sponsored DID', () => {
 
     expect(did.didAccount()).toBeTruthy()
     expect(did.did()).toEqual(`did:lto:${did.didAccount().address}`)
+
+    console.log(`Main DID: ${did.did()}`)
 
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     const vmAccount = await did.addVerificationMethod({

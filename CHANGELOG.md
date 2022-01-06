@@ -1,4 +1,9 @@
 # Release Notes
+## v0.1.7 - 2022-01-06
+
+- Fixed:
+  - Fixate lto-transactions to 1.2.12, since 1.2.13 has a problem with a non existing import
+  
 ## v0.1.6 - 2021-11-26
 
 - Feature:

@@ -54,9 +54,9 @@ describe('creating a sponsored DID', () => {
       uniResolverUrl: 'https://nonexisting.resolver.for.dids',
     })
 
-    await expect(
-      did.createDID({ verificationMethods: [LtoVerificationMethod.CapabilityDelegation, LtoVerificationMethod.Authentication] })
-    ).resolves.toContain(`did:lto:${didAccount.address}`)
+    await expect(did.createDID({ verificationMethods: [LtoVerificationMethod.Assertion, LtoVerificationMethod.Authentication] })).resolves.toContain(
+      `did:lto:${didAccount.address}`
+    )
 
     expect(did.didAccount()).toBeTruthy()
     expect(did.did()).toEqual(`did:lto:${did.didAccount().address}`)

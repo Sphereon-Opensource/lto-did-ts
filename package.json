@@ -34,13 +34,7 @@
     "@lto-network/signature-generator": "~1.0.0",
     "@waves/ts-lib-crypto": "^1.4.4-beta.1",
     "@sphereon/did-uni-client": "^0.4.0",
-    "bs58": "^4.0.1",
-    "connect": "^3.7.0",
-    "crypto": "^1.0.1",
-    "dotenv": "^10.0.0",
-    "js-yaml": "^4.1.0",
-    "lto-api": "^0.5.14",
-    "oas3-tools": "^2.2.3"
+    "lto-api": "^0.5.14"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
